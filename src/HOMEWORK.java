@@ -1,24 +1,162 @@
 import javax.swing.*;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.stream.StreamSupport;
 
 public class HOMEWORK {
 
             public static void main(String[] args)
         {
-            changeElementsOfArray();
-            fillArrayElementPlusThree();
-            multiplicationElementsOfArray();
-            fillDiagonalOfArrayByOne();
-            findMaxAndMin();
+            System.out.println("What game do you want to play?\n" +
+                    "0 - \"Guess the number\" or 1 - \"Guess the word\"");
 
-            int[] arr = {17,-6,2,2,4,1,1, 14, 3};
-            boolean answer = balanceOfArray(arr);
-            System.out.println("\nTask 6\n" + answer);
-
-            int shift = -3;
-            int[] arrayToChange  = {1, 2, 3, 4, 5};
-            shiftElementsOfArray(arrayToChange, shift);
+            System.out.print("Enter number ");
+            int answer = replayAnswer();
+            if (answer == 0)
+                gameGuessNumber();
+            else if (answer == 1)
+                guessTheWord();
 
         }
+
+    //Practice Lesson Three
+    // Task One
+    static void gameGuessNumber()
+    {
+        Random rand = new Random();
+        int secret = rand.nextInt(10);
+        int count = 3;
+        int answer;
+        int enteredNumber;
+        System.out.println("Welcome to the game 'Guess the number'!\n" +
+                "You've " + count + " tries to guess random number from 0 to 9!");
+        do {
+            System.out.println("Let's GO! Guess the number, enter it:");
+            for (int i = 0; i < count; i++)
+            {
+                System.out.println("");
+                int tries =  count - 1 - i;
+                enteredNumber = enterInteger();
+                if (enteredNumber > secret && i < count - 1)
+                    System.out.println("The hidden number is less!\nAvailable tries: " + tries);
+                else if (enteredNumber < secret && i < count - 1)
+                    System.out.println("The hidden number is bigger!\nAvailable tries: " + tries);
+                else if (enteredNumber == secret)
+                {
+                    System.out.println("Congratulations! You win");
+                    break;
+                }
+                else
+                    System.out.println("Sorry, you've fail. Right number = " + secret);
+            }
+            System.out.println("\nDo you wanna play the game again?\n" +
+                    "Yes - 1, Exit - 0");
+            answer = replayAnswer();
+        }
+        while (answer == 1);
+    }
+
+    static int enterInteger()
+    {
+        Scanner sc = new Scanner(System.in);
+        int enteredNumber;
+        do {
+            if (sc.hasNextInt())
+            {
+                return sc.nextInt();
+            }
+            System.out.println("Enter the integer number!");
+            sc.nextLine();
+        }
+        while (true);
+    }
+
+    static int replayAnswer()
+    {
+        int answer;
+        do
+        {
+            answer = enterInteger();
+            if (answer == 1 || answer == 0)
+                break;
+            else
+                System.out.println("Enter 0 or 1.");
+
+        }
+        while (answer != 0 || answer != 1);
+        return answer;
+    }
+        static void guessTheWord()
+        {
+            String[] words =
+                    {
+                    "apple", "orange", "lemon", "banana", "apricot",
+                            "avocado", "broccoli", "carrot", "cherry",
+                            "garlic", "grape", "melon", "leek", "kiwi", "mango",
+                            "mushroom", "nut", "olive", "pea", "peanut", "pear",
+                            "pepper", "pineapple", "pumpkin", "potato"
+                    };
+            Random rand = new Random();
+            String secret = words[rand.nextInt(words.length)];
+            System.out.println("Welcome to the game \"Guess the word\"!\n" +
+                    "The game chose one of these words:" +
+                    "\n\napple, orange, lemon, banana, apricot, " +
+                    "avocado, broccoli, carrot, cherry, " +
+                    "garlic, grape, melon,\nleek, kiwi, mango, " +
+                    "mushroom, nut, olive, pea, peanut, pear, " +
+                    "pepper, pineapple, pumpkin, potato");
+                System.out.println("\nEnter your word to guess");
+                comparingTwoWords(secret);
+
+        }
+
+        static void  comparingTwoWords(String hiddenWord)
+        {
+            Scanner scan = new Scanner(System.in);
+            do {
+                String entered = scan.nextLine();
+                if(entered.equals(hiddenWord))
+                {
+                    System.out.println("Right! You WIN");
+                    break;
+                }
+                else
+                {
+                    tip(hiddenWord, entered);
+                }
+            }while (true);
+        }
+
+        static void tip(String hiddenWord, String entered)
+        {
+            char hWChar;
+            char eChar;
+            String tip = "";
+            for (int i = 0; i < 15; i++)
+                {
+                    if(hiddenWord.length() <= entered.length() && i < hiddenWord.length()
+                            || hiddenWord.length() >= entered.length() && i < entered.length())
+                        {
+                            hWChar = hiddenWord.charAt(i);
+                            eChar = entered.charAt(i);
+                            if (hWChar == eChar)
+                                tip += eChar;
+                            else
+                                tip += "#";
+                         }
+                    else tip += "#";
+                }
+            if (tip.charAt(0) == entered.charAt(0))
+                {
+                    System.out.println("You've a letter match! Try again. Here are your tip: ");
+                    System.out.println(tip);
+                }
+            else
+                {
+                    System.out.println("You haven't a letter match! Try again.");
+                }
+        }
+        //Practice lesson two
         //Task 1
         static void changeElementsOfArray()
         {
@@ -162,4 +300,5 @@ public class HOMEWORK {
                 }
             }
         }
-    }
+
+            }
