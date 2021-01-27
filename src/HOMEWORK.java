@@ -5,19 +5,181 @@ import java.util.stream.StreamSupport;
 
 public class HOMEWORK {
 
+    static char[][] map;
+    static final int SIZE = 5;
+    static final int DOTS_TO_WIN = 3;
+
+    static final char DOT_X = 'X';
+    static final char DOT_0 = '0';
+    static final char DOT_EMPTY = '.';
+
             public static void main(String[] args)
         {
-            System.out.println("What game do you want to play?\n" +
-                    "0 - \"Guess the number\" or 1 - \"Guess the word\"");
+            initMap();
+            printMap();
+            while (true)
+            {
+                humanTurn();
+                printMap();
+                if (checkWin(DOT_X))
+                {
+                    System.out.println("Победил человек!");
+                    break;
+                }
+                if (isMapFull())
+                {
+                    System.out.println("Ничья");
+                    break;
+                }
 
-            System.out.print("Enter number ");
-            int answer = replayAnswer();
-            if (answer == 0)
-                gameGuessNumber();
-            else if (answer == 1)
-                guessTheWord();
+                aiTurn();
+                printMap();
+
+                if (checkWin(DOT_0))
+                {
+                    System.out.println("Победил компьютер!");
+                    break;
+                }
+                if (isMapFull())
+                {
+                    System.out.println("Ничья");
+                    break;
+                }
+            }
 
         }
+        static void initMap()
+        {
+            map = new char[SIZE][SIZE];
+            for (int i = 0; i < map.length; i++)
+            {
+                for (int j = 0; j < map.length; j++)
+                {
+                    map[i][j] = DOT_EMPTY;
+                }
+
+            }
+        }
+
+    static void printMap()
+    {
+        for (int i = 0; i <= SIZE; i++)
+        {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        for (int i = 0; i < SIZE; i++)
+        {
+            System.out.print((i+1) + " ");
+            for (int j = 0; j < SIZE; j++)
+            {
+                System.out.print(map[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+        static void humanTurn()
+        {
+            Scanner scanner = new Scanner(System.in);
+            int x;
+            int y;
+
+            do {
+                System.out.println("Введите координаты в формате X Y");
+                x = scanner.nextInt() - 1;
+                y = scanner.nextInt() - 1;
+            }
+            while (!isCellValid(x, y));
+
+            map[y][x] = DOT_X;
+        }
+
+        static void aiTurn()
+        {
+            Random random = new Random();
+            int x;
+            int y;
+
+            do {
+                x = random.nextInt(SIZE);
+                y = random.nextInt(SIZE);
+            }
+            while (!isCellValid(x, y));
+
+            map[y][x] = DOT_0;
+
+            System.out.println("Компьютер сходил в точку " + (x +1) + " " + (y + 1));
+        }
+
+        static boolean isCellValid(int x, int y)
+        {
+            if (x < 0 || x >= SIZE || y < 0 || y >= SIZE)
+            {
+                return false;
+            }
+            if (map[y][x] == DOT_EMPTY)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        static boolean checkWin(char sym)
+        {
+            //проверка по диагоналям
+            int countL = 0;
+            int countR = 0;
+            int countColumn = 0;
+            int countRow = 0;
+            for (int i = 0; i < map.length; i++)
+            {
+                if (map[i][map.length - 1 - i] == sym)
+                    countR++;
+                //добавила везде else, т.к. без него выигрывает 4 фишки в ряд не стоящие рядом
+                else countR =0;
+                if (map[i][i] == sym)
+                    countL++;
+                else  countL = 0;
+            }
+
+            //строки и столбцы
+            for (int i = 0; i < map.length; i++)
+            {
+                countColumn = 0;
+                countRow = 0;
+                for (int j = 0; j < map.length; j++)
+                {
+                    if (map[i][j] == sym)
+                        countRow++;
+                    else countRow = 0;
+                    if (map[j][i] == sym)
+                        countColumn++;
+                    else countColumn = 0;
+                    if (countColumn >= (SIZE - 1) || countRow >= (SIZE - 1))
+                        return true;
+                }
+
+            }
+            return countL >= (SIZE - 1) || countR >= (SIZE - 1);
+        }
+
+        static boolean isMapFull()
+        {
+            for (int i = 0; i < map.length; i++)
+            {
+                for (int j = 0; j < map.length; j++)
+                {
+                    if (map[i][j] == DOT_EMPTY)
+                    {
+                        return false;
+                    }
+                }
+
+            }
+            return true;
+        }
+
 
     //Practice Lesson Three
     // Task One
