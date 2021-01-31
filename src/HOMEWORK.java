@@ -7,55 +7,26 @@ public class HOMEWORK {
 
     public static void main(String[] args)
     {
-        Workers[] workers = new Workers[5];
+        Cat catKuzya = new Cat("Кузя");
+        Cat catPonchik = new Cat("Пончик");
+        Cat catWanda = new Cat("Ванда");
+        Dog dogBull = new Dog("Буль");
+        Dog dogMia = new Dog("Мия");
+        Dog dogSummer = new Dog("Самер");
+        Dog dogRex = new Dog("Рекс");
 
-        workers[0] = new Workers(
-                "Абракадабрин Абрахам Абрамович",
-                "Юрист",
-                "aaaYU@mail.ru",
-                "8-966-458-96-32",
-                78895.45f,
-                43);
+        catKuzya.run(15.89f);
+        catPonchik.swim(900f);
+        catWanda.run(18.75f);
+        dogBull.run(759.26f);
+        dogMia.swim(356.18f);
+        dogRex.run(189f);
+        dogSummer.swim(15);
 
-        workers[1] = new Workers(
-                "Березкина Барби Борисовна",
-                "Экономист",
-                "bbb777@gmail.ru",
-                "8-458-741-77-11",
-                56200.79f,
-                26);
+        dogBull.getCounterCats();
+        dogBull.getCounterCats();
+        dogBull.getCounterAllAnimals();
 
-        workers[2] = new Workers(
-                "Вяленая Волга Ватрушевна",
-                "Штамповщица ватных дисков",
-                "volgasuper@rambler.ru",
-                "8-885-964-77-36",
-                35000.01f,
-                61);
-
-        workers[3] = new Workers(
-                "Гора Григорий Гусиныч",
-                "Чистильщик шпунь",
-                "grigory11@yandex.ru",
-                "8-911-459-96-85",
-                4505.85f,
-                39);
-
-        workers[4] = new Workers(
-                "Дубочки Дарья Дуньевна",
-                "Центрировщица оптических изделий",
-                "dashaDa@gmail.ru",
-                "8-800-555-35-55",
-                100155.9f,
-                44);
-
-        for (int i = 0; i < workers.length; i++)
-        {
-            if (workers[i].age > 40)
-            {
-                workers[i].printInfoInConsole();
-            }
-        }
 
     }
 }
